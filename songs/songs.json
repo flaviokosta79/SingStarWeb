@@ -1,0 +1,19 @@
+[
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "title": "Test Song",
+    "artist": "Test Artist",
+    "cover": "/songs/covers/default.jpg",
+    "audioPath": "/songs/audio/test_song.mp3",
+    "bpm": 120
+  },
+  {
+    "id": "550e8400-e29b-41d4-a716-446655440001",
+    "title": "Take on me",
+    "artist": "a-ha",
+    "year": 1985,
+    "cover": "/songs/a-ha - Take on me/a-ha - Take on me.jpg",
+    "videoUrl": "/songs/a-ha - Take on me/a-ha - Take on me.mp4",
+    "audioPath": "/songs/a-ha - Take on me/a-ha - Take on me [music].mp3"
+  }
+]
