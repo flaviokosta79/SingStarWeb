@@ -1,19 +1,1149 @@
 [
   {
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "title": "Test Song",
-    "artist": "Test Artist",
-    "cover": "/songs/covers/default.jpg",
-    "audioPath": "/songs/audio/test_song.mp3",
-    "bpm": 120
-  },
-  {
     "id": "550e8400-e29b-41d4-a716-446655440001",
     "title": "Take on me",
     "artist": "a-ha",
     "year": 1985,
-    "cover": "/songs/a-ha - Take on me/a-ha - Take on me.jpg",
+    "albumCover": "/songs/a-ha - Take on me/a-ha - Take on me.jpg",
     "videoUrl": "/songs/a-ha - Take on me/a-ha - Take on me.mp4",
-    "audioPath": "/songs/a-ha - Take on me/a-ha - Take on me [music].mp3"
+    "musicUrl": "/songs/a-ha - Take on me/a-ha - Take on me [music].mp3",
+    "vocalsUrl": "/songs/a-ha - Take on me/a-ha - Take on me [vocals].mp3"
+  },
+  {
+    "id": "e7142669-b3e8-47e9-96f2-a1067889ca3a",
+    "title": "Creep",
+    "artist": "Radiohead",
+    "year": 2025,
+    "albumCover": "/songs/Radiohead - Creep/Radiohead - Creep.jpg",
+    "videoUrl": "/songs/Radiohead - Creep/Radiohead - Creep.mp4",
+    "musicUrl": "/songs/Radiohead - Creep/Radiohead - Creep [music].mp3",
+    "vocalsUrl": "/songs/Radiohead - Creep/Radiohead - Creep [vocals].mp3",
+    "lyrics": [
+      {
+        "startTime": 0,
+        "endTime": 2,
+        "text": "When"
+      },
+      {
+        "startTime": 3,
+        "endTime": 6,
+        "text": " you"
+      },
+      {
+        "startTime": 7,
+        "endTime": 10,
+        "text": " were"
+      },
+      {
+        "startTime": 11,
+        "endTime": 15,
+        "text": " here"
+      },
+      {
+        "startTime": 16,
+        "endTime": 20,
+        "text": " be"
+      },
+      {
+        "startTime": 22,
+        "endTime": 36,
+        "text": "fore"
+      },
+      {
+        "startTime": 109,
+        "endTime": 111,
+        "text": "Could"
+      },
+      {
+        "startTime": 112,
+        "endTime": 114,
+        "text": "n't"
+      },
+      {
+        "startTime": 116,
+        "endTime": 119,
+        "text": " look"
+      },
+      {
+        "startTime": 122,
+        "endTime": 126,
+        "text": " you"
+      },
+      {
+        "startTime": 127,
+        "endTime": 130,
+        "text": " in"
+      },
+      {
+        "startTime": 131,
+        "endTime": 134,
+        "text": " the"
+      },
+      {
+        "startTime": 228,
+        "endTime": 230,
+        "text": "You're"
+      },
+      {
+        "startTime": 232,
+        "endTime": 235,
+        "text": " just"
+      },
+      {
+        "startTime": 239,
+        "endTime": 244,
+        "text": " like"
+      },
+      {
+        "startTime": 246,
+        "endTime": 252,
+        "text": " an"
+      },
+      {
+        "startTime": 255,
+        "endTime": 265,
+        "text": " an"
+      },
+      {
+        "startTime": 268,
+        "endTime": 285,
+        "text": " gel"
+      },
+      {
+        "startTime": 341,
+        "endTime": 343,
+        "text": "Your"
+      },
+      {
+        "startTime": 347,
+        "endTime": 352,
+        "text": " skin"
+      },
+      {
+        "startTime": 355,
+        "endTime": 359,
+        "text": " makes"
+      },
+      {
+        "startTime": 362,
+        "endTime": 365,
+        "text": " me"
+      },
+      {
+        "startTime": 458,
+        "endTime": 460,
+        "text": "You"
+      },
+      {
+        "startTime": 464,
+        "endTime": 469,
+        "text": " float"
+      },
+      {
+        "startTime": 471,
+        "endTime": 476,
+        "text": " like"
+      },
+      {
+        "startTime": 479,
+        "endTime": 482,
+        "text": " a"
+      },
+      {
+        "startTime": 487,
+        "endTime": 500,
+        "text": " fea"
+      },
+      {
+        "startTime": 501,
+        "endTime": 514,
+        "text": "ther"
+      },
+      {
+        "startTime": 515,
+        "endTime": 518,
+        "text": "~"
+      },
+      {
+        "startTime": 519,
+        "endTime": 529,
+        "text": "~"
+      },
+      {
+        "startTime": 574,
+        "endTime": 576,
+        "text": "In"
+      },
+      {
+        "startTime": 577,
+        "endTime": 579,
+        "text": " a"
+      },
+      {
+        "startTime": 581,
+        "endTime": 583,
+        "text": " beau"
+      },
+      {
+        "startTime": 584,
+        "endTime": 586,
+        "text": "ti"
+      },
+      {
+        "startTime": 589,
+        "endTime": 603,
+        "text": "ful"
+      },
+      {
+        "startTime": 605,
+        "endTime": 628,
+        "text": " world"
+      },
+      {
+        "startTime": 697,
+        "endTime": 699,
+        "text": "I"
+      },
+      {
+        "startTime": 700,
+        "endTime": 703,
+        "text": " wish"
+      },
+      {
+        "startTime": 707,
+        "endTime": 711,
+        "text": " I"
+      },
+      {
+        "startTime": 714,
+        "endTime": 717,
+        "text": " was"
+      },
+      {
+        "startTime": 722,
+        "endTime": 730,
+        "text": " spe"
+      },
+      {
+        "startTime": 736,
+        "endTime": 751,
+        "text": "cial"
+      },
+      {
+        "startTime": 811,
+        "endTime": 813,
+        "text": "You're"
+      },
+      {
+        "startTime": 817,
+        "endTime": 824,
+        "text": " so"
+      },
+      {
+        "startTime": 833,
+        "endTime": 837,
+        "text": "ry"
+      },
+      {
+        "startTime": 841,
+        "endTime": 850,
+        "text": " spe"
+      },
+      {
+        "startTime": 856,
+        "endTime": 873,
+        "text": "cial"
+      },
+      {
+        "startTime": 933,
+        "endTime": 935,
+        "text": "But"
+      },
+      {
+        "startTime": 936,
+        "endTime": 942,
+        "text": " I'm"
+      },
+      {
+        "startTime": 943,
+        "endTime": 945,
+        "text": " a"
+      },
+      {
+        "startTime": 946,
+        "endTime": 951,
+        "text": "~"
+      },
+      {
+        "startTime": 957,
+        "endTime": 965,
+        "text": " creep"
+      },
+      {
+        "startTime": 1054,
+        "endTime": 1061,
+        "text": "I'm"
+      },
+      {
+        "startTime": 1063,
+        "endTime": 1065,
+        "text": " a"
+      },
+      {
+        "startTime": 1066,
+        "endTime": 1075,
+        "text": "~"
+      },
+      {
+        "startTime": 1076,
+        "endTime": 1089,
+        "text": " weird"
+      },
+      {
+        "startTime": 1092,
+        "endTime": 1104,
+        "text": "o"
+      },
+      {
+        "startTime": 1105,
+        "endTime": 1107,
+        "text": "~"
+      },
+      {
+        "startTime": 1108,
+        "endTime": 1130,
+        "text": "~"
+      },
+      {
+        "startTime": 1160,
+        "endTime": 1163,
+        "text": "What"
+      },
+      {
+        "startTime": 1164,
+        "endTime": 1169,
+        "text": " the"
+      },
+      {
+        "startTime": 1170,
+        "endTime": 1176,
+        "text": " hell"
+      },
+      {
+        "startTime": 1177,
+        "endTime": 1179,
+        "text": " am"
+      },
+      {
+        "startTime": 1180,
+        "endTime": 1184,
+        "text": " I"
+      },
+      {
+        "startTime": 1187,
+        "endTime": 1190,
+        "text": " do"
+      },
+      {
+        "startTime": 1191,
+        "endTime": 1195,
+        "text": "in'"
+      },
+      {
+        "startTime": 1200,
+        "endTime": 1234,
+        "text": " here?"
+      },
+      {
+        "startTime": 1292,
+        "endTime": 1298,
+        "text": "I"
+      },
+      {
+        "startTime": 1299,
+        "endTime": 1304,
+        "text": " don't"
+      },
+      {
+        "startTime": 1306,
+        "endTime": 1312,
+        "text": " be"
+      },
+      {
+        "startTime": 1314,
+        "endTime": 1325,
+        "text": "long"
+      },
+      {
+        "startTime": 1329,
+        "endTime": 1349,
+        "text": " here"
+      },
+      {
+        "startTime": 1408,
+        "endTime": 1410,
+        "text": "I"
+      },
+      {
+        "startTime": 1411,
+        "endTime": 1414,
+        "text": " don't"
+      },
+      {
+        "startTime": 1419,
+        "endTime": 1423,
+        "text": " care"
+      },
+      {
+        "startTime": 1425,
+        "endTime": 1427,
+        "text": " if"
+      },
+      {
+        "startTime": 1429,
+        "endTime": 1431,
+        "text": " it"
+      },
+      {
+        "startTime": 1435,
+        "endTime": 1447,
+        "text": " hurts"
+      },
+      {
+        "startTime": 1524,
+        "endTime": 1526,
+        "text": "I"
+      },
+      {
+        "startTime": 1527,
+        "endTime": 1530,
+        "text": " wan"
+      },
+      {
+        "startTime": 1531,
+        "endTime": 1535,
+        "text": "na"
+      },
+      {
+        "startTime": 1536,
+        "endTime": 1539,
+        "text": " have"
+      },
+      {
+        "startTime": 1542,
+        "endTime": 1546,
+        "text": " con"
+      },
+      {
+        "startTime": 1549,
+        "endTime": 1564,
+        "text": "trol"
+      },
+      {
+        "startTime": 1643,
+        "endTime": 1645,
+        "text": "I"
+      },
+      {
+        "startTime": 1646,
+        "endTime": 1649,
+        "text": " wan"
+      },
+      {
+        "startTime": 1650,
+        "endTime": 1653,
+        "text": "na"
+      },
+      {
+        "startTime": 1655,
+        "endTime": 1659,
+        "text": " per"
+      },
+      {
+        "startTime": 1662,
+        "endTime": 1665,
+        "text": "fect"
+      },
+      {
+        "startTime": 1670,
+        "endTime": 1682,
+        "text": " bo"
+      },
+      {
+        "startTime": 1684,
+        "endTime": 1697,
+        "text": "dy"
+      },
+      {
+        "startTime": 1698,
+        "endTime": 1701,
+        "text": "~"
+      },
+      {
+        "startTime": 1702,
+        "endTime": 1719,
+        "text": "~"
+      },
+      {
+        "startTime": 1763,
+        "endTime": 1764,
+        "text": "I"
+      },
+      {
+        "startTime": 1766,
+        "endTime": 1768,
+        "text": " wan"
+      },
+      {
+        "startTime": 1769,
+        "endTime": 1771,
+        "text": "na"
+      },
+      {
+        "startTime": 1774,
+        "endTime": 1777,
+        "text": " per"
+      },
+      {
+        "startTime": 1780,
+        "endTime": 1784,
+        "text": "fect"
+      },
+      {
+        "startTime": 1788,
+        "endTime": 1829,
+        "text": " soul"
+      },
+      {
+        "startTime": 1880,
+        "endTime": 1883,
+        "text": "I"
+      },
+      {
+        "startTime": 1884,
+        "endTime": 1888,
+        "text": " want"
+      },
+      {
+        "startTime": 1892,
+        "endTime": 1898,
+        "text": " you"
+      },
+      {
+        "startTime": 1899,
+        "endTime": 1906,
+        "text": " to"
+      },
+      {
+        "startTime": 1907,
+        "endTime": 1920,
+        "text": " no"
+      },
+      {
+        "startTime": 1922,
+        "endTime": 1934,
+        "text": "tice"
+      },
+      {
+        "startTime": 1935,
+        "endTime": 1938,
+        "text": "~"
+      },
+      {
+        "startTime": 1939,
+        "endTime": 1948,
+        "text": "~"
+      },
+      {
+        "startTime": 2001,
+        "endTime": 2003,
+        "text": "When"
+      },
+      {
+        "startTime": 2004,
+        "endTime": 2010,
+        "text": " I'm"
+      },
+      {
+        "startTime": 2011,
+        "endTime": 2018,
+        "text": " not"
+      },
+      {
+        "startTime": 2019,
+        "endTime": 2025,
+        "text": " a"
+      },
+      {
+        "startTime": 2026,
+        "endTime": 2044,
+        "text": "round"
+      },
+      {
+        "startTime": 2116,
+        "endTime": 2119,
+        "text": "You're"
+      },
+      {
+        "startTime": 2123,
+        "endTime": 2127,
+        "text": " so"
+      },
+      {
+        "startTime": 2130,
+        "endTime": 2135,
+        "text": " ve"
+      },
+      {
+        "startTime": 2138,
+        "endTime": 2141,
+        "text": "ry"
+      },
+      {
+        "startTime": 2161,
+        "endTime": 2185,
+        "text": "cial"
+      },
+      {
+        "startTime": 2234,
+        "endTime": 2240,
+        "text": "I"
+      },
+      {
+        "startTime": 2241,
+        "endTime": 2245,
+        "text": " wish"
+      },
+      {
+        "startTime": 2250,
+        "endTime": 2255,
+        "text": " I"
+      },
+      {
+        "startTime": 2257,
+        "endTime": 2260,
+        "text": " was"
+      },
+      {
+        "startTime": 2264,
+        "endTime": 2272,
+        "text": " spe"
+      },
+      {
+        "startTime": 2280,
+        "endTime": 2299,
+        "text": "cial"
+      },
+      {
+        "startTime": 2356,
+        "endTime": 2358,
+        "text": "But"
+      },
+      {
+        "startTime": 2359,
+        "endTime": 2366,
+        "text": " I'm"
+      },
+      {
+        "startTime": 2367,
+        "endTime": 2369,
+        "text": " a"
+      },
+      {
+        "startTime": 2370,
+        "endTime": 2375,
+        "text": "~"
+      },
+      {
+        "startTime": 2381,
+        "endTime": 2388,
+        "text": " creep"
+      },
+      {
+        "startTime": 2479,
+        "endTime": 2485,
+        "text": "I'm"
+      },
+      {
+        "startTime": 2487,
+        "endTime": 2490,
+        "text": " a"
+      },
+      {
+        "startTime": 2491,
+        "endTime": 2499,
+        "text": "~"
+      },
+      {
+        "startTime": 2500,
+        "endTime": 2513,
+        "text": " weird"
+      },
+      {
+        "startTime": 2516,
+        "endTime": 2529,
+        "text": "o"
+      },
+      {
+        "startTime": 2530,
+        "endTime": 2533,
+        "text": "~"
+      },
+      {
+        "startTime": 2534,
+        "endTime": 2554,
+        "text": "~"
+      },
+      {
+        "startTime": 2589,
+        "endTime": 2591,
+        "text": "What"
+      },
+      {
+        "startTime": 2593,
+        "endTime": 2597,
+        "text": " the"
+      },
+      {
+        "startTime": 2600,
+        "endTime": 2605,
+        "text": " hell"
+      },
+      {
+        "startTime": 2606,
+        "endTime": 2607,
+        "text": " am"
+      },
+      {
+        "startTime": 2608,
+        "endTime": 2611,
+        "text": " I"
+      },
+      {
+        "startTime": 2616,
+        "endTime": 2619,
+        "text": " do"
+      },
+      {
+        "startTime": 2620,
+        "endTime": 2624,
+        "text": "in'"
+      },
+      {
+        "startTime": 2627,
+        "endTime": 2631,
+        "text": " here"
+      },
+      {
+        "startTime": 2632,
+        "endTime": 2661,
+        "text": "~?"
+      },
+      {
+        "startTime": 2719,
+        "endTime": 2726,
+        "text": "I"
+      },
+      {
+        "startTime": 2727,
+        "endTime": 2732,
+        "text": " don't"
+      },
+      {
+        "startTime": 2735,
+        "endTime": 2741,
+        "text": " be"
+      },
+      {
+        "startTime": 2742,
+        "endTime": 2754,
+        "text": "long"
+      },
+      {
+        "startTime": 2757,
+        "endTime": 2772,
+        "text": " here"
+      },
+      {
+        "startTime": 2831,
+        "endTime": 2845,
+        "text": "Oh"
+      },
+      {
+        "startTime": 2846,
+        "endTime": 2851,
+        "text": "~"
+      },
+      {
+        "startTime": 2866,
+        "endTime": 2913,
+        "text": "She's"
+      },
+      {
+        "startTime": 2926,
+        "endTime": 2939,
+        "text": "Run"
+      },
+      {
+        "startTime": 2940,
+        "endTime": 2947,
+        "text": "nin'"
+      },
+      {
+        "startTime": 2948,
+        "endTime": 2959,
+        "text": " out"
+      },
+      {
+        "startTime": 2969,
+        "endTime": 2976,
+        "text": "A"
+      },
+      {
+        "startTime": 3102,
+        "endTime": 3144,
+        "text": "She's"
+      },
+      {
+        "startTime": 3162,
+        "endTime": 3175,
+        "text": "Run"
+      },
+      {
+        "startTime": 3176,
+        "endTime": 3183,
+        "text": "nin'"
+      },
+      {
+        "startTime": 3184,
+        "endTime": 3200,
+        "text": " out"
+      },
+      {
+        "startTime": 3215,
+        "endTime": 3220,
+        "text": "She"
+      },
+      {
+        "startTime": 3221,
+        "endTime": 3232,
+        "text": " runs"
+      },
+      {
+        "startTime": 3249,
+        "endTime": 3263,
+        "text": "Runs"
+      },
+      {
+        "startTime": 3277,
+        "endTime": 3295,
+        "text": "Runs"
+      },
+      {
+        "startTime": 3303,
+        "endTime": 3307,
+        "text": "Runs"
+      },
+      {
+        "startTime": 3308,
+        "endTime": 3389,
+        "text": "~"
+      },
+      {
+        "startTime": 3391,
+        "endTime": 3438,
+        "text": "~"
+      },
+      {
+        "startTime": 3440,
+        "endTime": 3450,
+        "text": "~"
+      },
+      {
+        "startTime": 3565,
+        "endTime": 3571,
+        "text": "Runs"
+      },
+      {
+        "startTime": 3572,
+        "endTime": 3624,
+        "text": "~"
+      },
+      {
+        "startTime": 3625,
+        "endTime": 3653,
+        "text": "~"
+      },
+      {
+        "startTime": 3654,
+        "endTime": 3674,
+        "text": "~"
+      },
+      {
+        "startTime": 3675,
+        "endTime": 3691,
+        "text": "~"
+      },
+      {
+        "startTime": 3769,
+        "endTime": 3771,
+        "text": "What"
+      },
+      {
+        "startTime": 3772,
+        "endTime": 3774,
+        "text": "ev"
+      },
+      {
+        "startTime": 3775,
+        "endTime": 3777,
+        "text": "er"
+      },
+      {
+        "startTime": 3779,
+        "endTime": 3783,
+        "text": " makes"
+      },
+      {
+        "startTime": 3786,
+        "endTime": 3791,
+        "text": " you"
+      },
+      {
+        "startTime": 3808,
+        "endTime": 3819,
+        "text": "py"
+      },
+      {
+        "startTime": 3889,
+        "endTime": 3891,
+        "text": "What"
+      },
+      {
+        "startTime": 3892,
+        "endTime": 3894,
+        "text": "ev"
+      },
+      {
+        "startTime": 3895,
+        "endTime": 3897,
+        "text": "er"
+      },
+      {
+        "startTime": 3898,
+        "endTime": 3911,
+        "text": " you"
+      },
+      {
+        "startTime": 3913,
+        "endTime": 3921,
+        "text": " want"
+      },
+      {
+        "startTime": 4000,
+        "endTime": 4002,
+        "text": "You're"
+      },
+      {
+        "startTime": 4006,
+        "endTime": 4011,
+        "text": " so"
+      },
+      {
+        "startTime": 4014,
+        "endTime": 4019,
+        "text": " ve"
+      },
+      {
+        "startTime": 4021,
+        "endTime": 4024,
+        "text": "ry"
+      },
+      {
+        "startTime": 4029,
+        "endTime": 4038,
+        "text": " spe"
+      },
+      {
+        "startTime": 4043,
+        "endTime": 4054,
+        "text": "cial"
+      },
+      {
+        "startTime": 4116,
+        "endTime": 4120,
+        "text": "I"
+      },
+      {
+        "startTime": 4122,
+        "endTime": 4126,
+        "text": " wish"
+      },
+      {
+        "startTime": 4129,
+        "endTime": 4135,
+        "text": " I"
+      },
+      {
+        "startTime": 4136,
+        "endTime": 4138,
+        "text": " was"
+      },
+      {
+        "startTime": 4144,
+        "endTime": 4153,
+        "text": " spe"
+      },
+      {
+        "startTime": 4159,
+        "endTime": 4166,
+        "text": "cial"
+      },
+      {
+        "startTime": 4235,
+        "endTime": 4237,
+        "text": "But"
+      },
+      {
+        "startTime": 4238,
+        "endTime": 4245,
+        "text": " I'm"
+      },
+      {
+        "startTime": 4247,
+        "endTime": 4249,
+        "text": " a"
+      },
+      {
+        "startTime": 4250,
+        "endTime": 4255,
+        "text": "~"
+      },
+      {
+        "startTime": 4260,
+        "endTime": 4269,
+        "text": " creep"
+      },
+      {
+        "startTime": 4358,
+        "endTime": 4362,
+        "text": "I'm"
+      },
+      {
+        "startTime": 4364,
+        "endTime": 4367,
+        "text": " a"
+      },
+      {
+        "startTime": 4368,
+        "endTime": 4377,
+        "text": "~"
+      },
+      {
+        "startTime": 4378,
+        "endTime": 4391,
+        "text": " weird"
+      },
+      {
+        "startTime": 4393,
+        "endTime": 4408,
+        "text": "o"
+      },
+      {
+        "startTime": 4409,
+        "endTime": 4411,
+        "text": "~"
+      },
+      {
+        "startTime": 4412,
+        "endTime": 4424,
+        "text": "~"
+      },
+      {
+        "startTime": 4467,
+        "endTime": 4469,
+        "text": "What"
+      },
+      {
+        "startTime": 4470,
+        "endTime": 4473,
+        "text": " the"
+      },
+      {
+        "startTime": 4474,
+        "endTime": 4478,
+        "text": " hell"
+      },
+      {
+        "startTime": 4479,
+        "endTime": 4482,
+        "text": " am"
+      },
+      {
+        "startTime": 4483,
+        "endTime": 4487,
+        "text": " I"
+      },
+      {
+        "startTime": 4490,
+        "endTime": 4493,
+        "text": " do"
+      },
+      {
+        "startTime": 4495,
+        "endTime": 4499,
+        "text": "in'"
+      },
+      {
+        "startTime": 4503,
+        "endTime": 4518,
+        "text": " here?"
+      },
+      {
+        "startTime": 4595,
+        "endTime": 4600,
+        "text": "I"
+      },
+      {
+        "startTime": 4602,
+        "endTime": 4607,
+        "text": " don't"
+      },
+      {
+        "startTime": 4609,
+        "endTime": 4615,
+        "text": " be"
+      },
+      {
+        "startTime": 4616,
+        "endTime": 4625,
+        "text": "long"
+      },
+      {
+        "startTime": 4631,
+        "endTime": 4647,
+        "text": " here"
+      },
+      {
+        "startTime": 4714,
+        "endTime": 4720,
+        "text": "I"
+      },
+      {
+        "startTime": 4721,
+        "endTime": 4726,
+        "text": " don't"
+      },
+      {
+        "startTime": 4729,
+        "endTime": 4734,
+        "text": " be"
+      },
+      {
+        "startTime": 4756,
+        "endTime": 4767,
+        "text": " here"
+      }
+    ]
   }
 ]

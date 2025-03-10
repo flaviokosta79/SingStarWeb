@@ -2,58 +2,27 @@ import { Song, LyricLine } from '../types/song';
 import { v4 as uuidv4 } from 'uuid';
 
 /**
- * Loads songs from the songs.json file
+ * Loads songs by scanning the songs directory automatically
  * @returns Promise<Song[]> A promise that resolves to an array of Song objects
  */
 export async function loadSongsFromFileSystem(): Promise<Song[]> {
   try {
-    // In a browser environment, we can't use fs directly
-    // Instead, we'll fetch the songs.json file
-    const response = await fetch('/songs/songs.json');
-    if (!response.ok) {
-      throw new Error(`Failed to fetch songs: ${response.statusText}`);
+    // First try to load existing songs.json for backward compatibility
+    let existingSongs: Song[] = [];
+    try {
+      const response = await fetch('/songs/songs.json');
+      if (response.ok) {
+        existingSongs = await response.json();
+        console.log('Loaded existing songs from songs.json:', existingSongs);
+      }
+    } catch (error) {
+      console.warn('Could not load existing songs.json, will scan directories instead:', error);
     }
+
+    // Scan the songs directory to find all song folders
+    const songs = await scanSongsDirectory(existingSongs);
     
-    const songsData = await response.json();
-    
-    // Transform the data to match our Song interface
-    const songs: Song[] = songsData.map((songData: any) => {
-      // Extract the directory name from the videoUrl or cover path
-      let dirName = '';
-      if (songData.videoUrl) {
-        dirName = songData.videoUrl.split('/').slice(0, -1).join('/');
-      } else if (songData.cover && songData.cover !== '/songs/covers/default.jpg') {
-        dirName = songData.cover.split('/').slice(0, -1).join('/');
-      }
-      
-      // Construct paths for music and vocals files based on naming convention
-      let musicUrl = '';
-      let vocalsUrl = '';
-      
-      if (dirName) {
-        // If we have a directory, look for music and vocals files
-        const baseName = `${songData.artist} - ${songData.title}`;
-        musicUrl = `${dirName}/${baseName} [music].mp3`;
-        vocalsUrl = `${dirName}/${baseName} [vocals].mp3`;
-      } else if (songData.audioPath) {
-        // If we have an audioPath, use it for musicUrl
-        musicUrl = songData.audioPath;
-      }
-      
-      return {
-        id: songData.id || uuidv4(),
-        title: songData.title || 'Unknown Title',
-        artist: songData.artist || 'Unknown Artist',
-        year: songData.year || new Date().getFullYear(),
-        albumCover: songData.cover || '/songs/covers/default.jpg',
-        videoUrl: songData.videoUrl || '',
-        musicUrl: musicUrl,
-        vocalsUrl: vocalsUrl,
-        lyrics: songData.lyrics || []
-      };
-    });
-    
-    console.log('Loaded songs from songs.json:', songs);
+    console.log('Loaded songs from directory scan:', songs);
     return songs;
   } catch (error) {
     console.error('Error loading songs:', error);
@@ -62,105 +31,240 @@ export async function loadSongsFromFileSystem(): Promise<Song[]> {
 }
 
 /**
- * Parses a song file and extracts metadata and lyrics
- * @param filePath Path to the song text file
- * @param songDirPath Path to the song directory
- * @returns A Song object with metadata and lyrics
+ * Scans the songs directory to find all song folders and extract metadata
+ * @param existingSongs Existing songs from songs.json if available
+ * @returns Promise<Song[]> Array of songs
  */
-async function parseSongFile(filePath: string, songDirPath: string): Promise<Song> {
+async function scanSongsDirectory(existingSongs: Song[] = []): Promise<Song[]> {
   try {
-    const fileContent = await fs.promises.readFile(filePath, 'utf-8');
-    const lines = fileContent.split('\n');
+    // In a browser environment, we can't directly scan directories
+    // Instead, we'll use a combination of approaches to simulate directory scanning:
     
-    // Extract metadata from the file
-    const metadata: Record<string, string> = {};
-    const lyrics: LyricLine[] = [];
+    // 1. Try to fetch a directory listing (this might require server-side help)
+    // 2. Use known patterns to discover songs based on folder naming conventions
     
-    // Process metadata lines (lines starting with #)
-    for (const line of lines) {
-      if (line.startsWith('#')) {
-        const [key, value] = line.substring(1).split(':', 2);
-        if (key && value) {
-          metadata[key.trim()] = value.trim();
-        }
-      } else if (line.startsWith(':')) {
-        // Process lyric lines (lines starting with :)
-        // Format: : startTime duration pitch text
-        const parts = line.substring(1).trim().split(' ');
-        if (parts.length >= 4) {
-          const startTime = parseInt(parts[0], 10);
-          const duration = parseInt(parts[1], 10);
-          // Calculate end time based on start time and duration
-          const endTime = startTime + duration;
-          // Join the remaining parts as the lyric text
-          const text = parts.slice(3).join(' ');
-          
-          lyrics.push({
-            startTime,
-            endTime,
-            text
-          });
-        }
+    // Approach: Fetch a dynamically generated directory listing
+    // This requires a small server-side script or endpoint to list directories
+    let songDirectories: string[] = [];
+    
+    try {
+      const response = await fetch('/api/list-song-directories');
+      if (response.ok) {
+        songDirectories = await response.json();
+      } else {
+        throw new Error('Directory listing API not available');
       }
-    }
-    
-    // Get the song directory name to extract artist and title if not in metadata
-    const dirName = path.basename(songDirPath);
-    let artist = metadata.ARTIST;
-    let title = metadata.TITLE;
-    
-    // If artist and title are not in metadata, try to extract from directory name
-    if (!artist || !title) {
-      const parts = dirName.split(' - ');
-      if (parts.length >= 2) {
-        artist = artist || parts[0];
-        title = title || parts[1];
-      }
-    }
-    
-    // Construct file paths for cover, audio, and video
-    const coverPath = metadata.COVER ? 
-      `/songs/${dirName}/${metadata.COVER}` : 
-      '/songs/covers/default.jpg';
+    } catch (directoryListError) {
+      console.warn('Could not get directory listing via API, falling back to manual discovery');
       
-    const videoPath = metadata.VIDEO ? 
-      `/songs/${dirName}/${metadata.VIDEO}` : 
-      '';
+      // Fallback: Try to discover songs by checking for known folders
+      songDirectories = await discoverSongDirectories();
+    }
     
-    // Create and return the Song object
-    return {
-      id: uuidv4(),
-      title: title || 'Unknown Title',
-      artist: artist || 'Unknown Artist',
-      year: metadata.YEAR ? parseInt(metadata.YEAR, 10) : new Date().getFullYear(),
-      albumCover: coverPath,
-      videoUrl: videoPath,
-      lyrics: lyrics
-    };
+    // Process each song directory
+    const songPromises = songDirectories.map(dirName => processSongDirectory(dirName, existingSongs));
+    const songs = await Promise.all(songPromises);
+    
+    // Filter out any null results from processing failures
+    return songs.filter((song): song is Song => song !== null);
   } catch (error) {
-    console.error('Error parsing song file:', error);
-    throw error;
+    console.error('Error scanning songs directory:', error);
+    // If all else fails, return existing songs
+    return existingSongs;
   }
 }
 
 /**
- * Parses lyrics from a file path or returns an empty array if the file doesn't exist
- * @param lyricsPath Path to the lyrics file
+ * Discovers song directories by testing for the existence of files in predictable locations
+ * @returns Promise<string[]> Array of directory names
+ */
+async function discoverSongDirectories(): Promise<string[]> {
+  try {
+    // First, let's try to fetch the actual songs folder content
+    // This is a more modern approach that might be supported by some servers
+    try {
+      const response = await fetch('/songs/?list');
+      if (response.ok) {
+        const html = await response.text();
+        // Extract directory names from directory listing (simple parsing)
+        const dirRegex = /<a[^>]*href="([^"]+\/)"/g;
+        const dirs: string[] = [];
+        let match;
+        while ((match = dirRegex.exec(html)) !== null) {
+          if (match[1] !== '../') {  // Skip parent directory
+            dirs.push(match[1].replace('/', ''));
+          }
+        }
+        if (dirs.length > 0) {
+          return dirs;
+        }
+      }
+    } catch (listingError) {
+      console.warn('Could not fetch directory listing:', listingError);
+    }
+    
+    // Fallback: Check if we can get an index of the songs directory
+    // This requires the server to generate directory listings
+    
+    // If we can't get a directory listing, we'll try a different approach:
+    // We'll scan existing songs.json to identify which folders we already know about
+    const knownDirs = new Set<string>();
+    existingSongs.forEach(song => {
+      if (song.videoUrl) {
+        const parts = song.videoUrl.split('/');
+        if (parts.length >= 3) {
+          // Extract the directory name from paths like "/songs/Dir Name/file.mp4"
+          knownDirs.add(parts.slice(1, -1).join('/'));
+        }
+      }
+    });
+    
+    return Array.from(knownDirs);
+  } catch (error) {
+    console.error('Error discovering song directories:', error);
+    return [];
+  }
+}
+
+/**
+ * Processes a song directory to extract metadata
+ * @param dirName Directory name (e.g. "a-ha - Take on me")
+ * @param existingSongs Existing songs to check against
+ * @returns Promise<Song | null> A song object or null if processing fails
+ */
+async function processSongDirectory(dirName: string, existingSongs: Song[]): Promise<Song | null> {
+  try {
+    // Check if this song already exists in our data
+    const existingSong = existingSongs.find(song => 
+      song.videoUrl?.includes(dirName) || song.albumCover?.includes(dirName)
+    );
+    
+    if (existingSong) {
+      console.log(`Song already exists in database: ${dirName}`);
+      return existingSong;
+    }
+    
+    // Extract artist and title from the directory name (assumed format: "Artist - Title")
+    const parts = dirName.split(' - ');
+    let artist = 'Unknown Artist';
+    let title = 'Unknown Title';
+    
+    if (parts.length >= 2) {
+      artist = parts[0].trim();
+      title = parts[1].trim();
+    }
+    
+    // Construct paths for files we expect to find
+    const basePath = `/songs/${dirName}`;
+    const coverPath = `${basePath}/${dirName}.jpg`;
+    const videoPath = `${basePath}/${dirName}.mp4`;
+    const musicPath = `${basePath}/${dirName} [music].mp3`;
+    const vocalsPath = `${basePath}/${dirName} [vocals].mp3`;
+    const lyricsPath = `${basePath}/${dirName}.txt`;
+    
+    // Check which files actually exist by trying to fetch them
+    // We'll start with the cover image which should always exist
+    let coverExists = false;
+    
+    try {
+      const coverResponse = await fetch(coverPath, { method: 'HEAD' });
+      coverExists = coverResponse.ok;
+    } catch (e) {
+      console.warn(`Cover image not found for ${dirName}`);
+    }
+    
+    // If we don't even have a cover image, we might not have a valid song folder
+    if (!coverExists) {
+      console.warn(`Skipping invalid song directory: ${dirName}`);
+      return null;
+    }
+    
+    // Create a new song entry
+    const newSong: Song = {
+      id: uuidv4(),
+      title,
+      artist,
+      year: new Date().getFullYear(), // Default to current year if unknown
+      albumCover: coverPath,
+      videoUrl: videoPath,
+      musicUrl: musicPath,
+      vocalsUrl: vocalsPath,
+      lyrics: [] // We'll load lyrics separately if needed
+    };
+    
+    // If lyrics file exists, try to parse it
+    try {
+      const lyricsResponse = await fetch(lyricsPath);
+      if (lyricsResponse.ok) {
+        const text = await lyricsResponse.text();
+        newSong.lyrics = parseLyricsFromText(text);
+      }
+    } catch (e) {
+      console.warn(`Lyrics not found or could not be parsed for ${dirName}`);
+    }
+    
+    return newSong;
+  } catch (error) {
+    console.error(`Error processing song directory ${dirName}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Parse lyrics from text content
+ * @param text Lyrics text content
  * @returns Array of LyricLine objects
  */
-function parseLyrics(lyricsPath?: string): LyricLine[] {
-  if (!lyricsPath) return [];
+function parseLyricsFromText(text: string): LyricLine[] {
+  const lines = text.split('\n');
+  const lyrics: LyricLine[] = [];
   
+  for (const line of lines) {
+    if (line.startsWith(':')) {
+      // Process lyric lines (format: ": startTime duration pitch text")
+      const parts = line.substring(1).trim().split(' ');
+      if (parts.length >= 4) {
+        const startTime = parseInt(parts[0], 10);
+        const duration = parseInt(parts[1], 10);
+        const endTime = startTime + duration;
+        const text = parts.slice(3).join(' ');
+        
+        lyrics.push({
+          startTime,
+          endTime,
+          text
+        });
+      }
+    }
+  }
+  
+  return lyrics;
+}
+
+/**
+ * Saves the songs data back to the server
+ * This would require a server endpoint to handle the update
+ * @param songs Array of songs to save
+ */
+export async function saveSongsData(songs: Song[]): Promise<void> {
   try {
-    // This is a placeholder. In a real implementation, you would:
-    // 1. Read the lyrics file
-    // 2. Parse the content based on your lyrics format
-    // 3. Return an array of LyricLine objects
+    // This function would need a server endpoint to work
+    // For a pure frontend solution, you might want to use localStorage instead
+    const response = await fetch('/api/update-songs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(songs)
+    });
     
-    // For now, we'll return an empty array
-    return [];
+    if (!response.ok) {
+      throw new Error(`Failed to save songs data: ${response.statusText}`);
+    }
+    
+    console.log('Songs data saved successfully');
   } catch (error) {
-    console.error('Error parsing lyrics:', error);
-    return [];
+    console.error('Error saving songs data:', error);
+    throw error;
   }
 }

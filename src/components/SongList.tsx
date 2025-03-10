@@ -3,7 +3,7 @@ import { useKaraokeStore } from '../store/useKaraokeStore';
 import { ChevronUp, ChevronDown } from 'lucide-react';
 
 export const SongList: React.FC = () => {
-  const { songs, currentSong, setCurrentSong } = useKaraokeStore();
+  const { songs, currentSong, setCurrentSong, openPlayerModal } = useKaraokeStore();
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -13,6 +13,7 @@ export const SongList: React.FC = () => {
       setSelectedIndex((prev) => Math.min(songs.length - 1, prev + 1));
     } else if (e.key === 'Enter') {
       setCurrentSong(songs[selectedIndex]);
+      openPlayerModal();
     }
   };
 
@@ -43,8 +44,12 @@ export const SongList: React.FC = () => {
           <button
             key={song.id}
             onClick={() => {
+              console.log("Clicked on song:", song.title);
               setSelectedIndex(index);
               setCurrentSong(song);
+              // Chamar openPlayerModal diretamente após definir a música
+              openPlayerModal();
+              console.log("Modal should be open now");
             }}
             className={`relative aspect-square rounded-lg overflow-hidden transition-transform hover:scale-105 ${
               currentSong?.id === song.id ? 'ring-2 ring-purple-500' : ''
