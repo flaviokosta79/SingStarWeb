@@ -14,6 +14,7 @@ interface KaraokeState {
   };
   theme: 'light' | 'dark';
   isLoading: boolean;
+  modalSize: number; // Novo: controle do tamanho do modal (1 = 100%)
   setCurrentSong: (song: Song | null) => void;
   setSongs: (songs: Song[]) => void;
   setIsPlaying: (isPlaying: boolean) => void;
@@ -23,6 +24,7 @@ interface KaraokeState {
   openPlayerModal: () => void;
   closePlayerModal: () => void;
   refreshSongs: () => Promise<void>;
+  adjustModalSize: (delta: number) => void; // Novo: função para ajustar o tamanho
 }
 
 export const useKaraokeStore = create<KaraokeState>((set, get) => ({
@@ -32,6 +34,7 @@ export const useKaraokeStore = create<KaraokeState>((set, get) => ({
   isPlaying: false,
   isPlayerModalOpen: false,
   isLoading: false,
+  modalSize: 1.7, // Tamanho inicial (170% do tamanho base)
   volume: {
     music: 1.0,
     voice: 0.05,
@@ -62,6 +65,11 @@ export const useKaraokeStore = create<KaraokeState>((set, get) => ({
   closePlayerModal: () => {
     console.log("Closing player modal"); 
     set({ isPlayerModalOpen: false });
+  },
+  adjustModalSize: (delta) => {
+    set((state) => ({
+      modalSize: Math.max(0.5, Math.min(2.5, state.modalSize + delta)),
+    }));
   },
   refreshSongs: async () => {
     try {
