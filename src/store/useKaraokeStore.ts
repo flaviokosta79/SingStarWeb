@@ -33,8 +33,8 @@ export const useKaraokeStore = create<KaraokeState>((set, get) => ({
   isPlayerModalOpen: false,
   isLoading: false,
   volume: {
-    music: 0.8,
-    voice: 1.0,
+    music: 1.0,
+    voice: 0.05,
   },
   theme: 'dark',
   setCurrentSong: (song) => set({ currentSong: song }),

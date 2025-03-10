@@ -39,35 +39,40 @@ export const SongList: React.FC = () => {
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto grid grid-cols-3 gap-4 p-4">
-        {songs.map((song, index) => (
-          <button
-            key={song.id}
-            onClick={() => {
-              console.log("Clicked on song:", song.title);
-              setSelectedIndex(index);
-              setCurrentSong(song);
-              // Chamar openPlayerModal diretamente após definir a música
-              openPlayerModal();
-              console.log("Modal should be open now");
-            }}
-            className={`relative aspect-square rounded-lg overflow-hidden transition-transform hover:scale-105 ${
-              currentSong?.id === song.id ? 'ring-2 ring-purple-500' : ''
-            } ${selectedIndex === index ? 'ring-2 ring-white' : ''}`}
-          >
-            <img
-              src={song.albumCover}
-              alt={`${song.title} - ${song.artist}`}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-2">
-              <p className="text-white text-sm font-semibold truncate">
-                {song.title}
-              </p>
-              <p className="text-gray-300 text-xs truncate">{song.artist}</p>
+      <div className="flex-1 overflow-y-auto">
+        <div className="grid grid-cols-5 gap-x-2 px-2">
+          {songs.map((song, index) => (
+            <div key={song.id} className="pt-2">
+              <button
+                onClick={() => {
+                  console.log("Clicked on song:", song.title);
+                  setSelectedIndex(index);
+                  setCurrentSong(song);
+                  openPlayerModal();
+                  console.log("Modal should be open now");
+                }}
+                className={`relative w-full rounded-lg overflow-hidden transition-transform hover:scale-105 ${
+                  currentSong?.id === song.id ? 'ring-2 ring-purple-500' : ''
+                } ${selectedIndex === index ? 'ring-2 ring-white' : ''}`}
+                style={{ paddingBottom: '100%' }}
+              >
+                <div className="absolute inset-0">
+                  <img
+                    src={song.albumCover}
+                    alt={`${song.title} - ${song.artist}`}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex flex-col justify-end p-2">
+                    <p className="text-white text-xs font-semibold truncate">
+                      {song.title}
+                    </p>
+                    <p className="text-gray-300 text-xs truncate">{song.artist}</p>
+                  </div>
+                </div>
+              </button>
             </div>
-          </button>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
