@@ -14,6 +14,9 @@ export interface LyricLine {
   startTime: number;
   endTime: number;
   text: string;
+  isPause?: boolean;
+  isProlongation?: boolean;
+  isGolden?: boolean;
 }
 
 export interface UserScore {

@@ -86,6 +86,9 @@ async function discoverSongDirectories(): Promise<string[]> {
       const response = await fetch('/songs/?list');
       if (response.ok) {
         const html = await response.text();
+        const markerType = '-'; // Temporary placeholder until we get actual marker
+const isPause = markerType === '-';
+        const isProlongation = markerType === '~';
         // Extract directory names from directory listing (simple parsing)
         const dirRegex = /<a[^>]*href="([^"]+\/)"/g;
         const dirs: string[] = [];
@@ -95,6 +98,7 @@ async function discoverSongDirectories(): Promise<string[]> {
             dirs.push(match[1].replace('/', ''));
           }
         }
+        
         if (dirs.length > 0) {
           return dirs;
         }
@@ -196,8 +200,8 @@ async function processSongDirectory(dirName: string, existingSongs: Song[]): Pro
     try {
       const lyricsResponse = await fetch(lyricsPath);
       if (lyricsResponse.ok) {
-        const text = await lyricsResponse.text();
-        newSong.lyrics = parseLyricsFromText(text);
+        const lyricsText = await lyricsResponse.text();
+        newSong.lyrics = parseLyricsFromText(lyricsText);
       }
     } catch (e) {
       console.warn(`Lyrics not found or could not be parsed for ${dirName}`);
@@ -216,23 +220,62 @@ async function processSongDirectory(dirName: string, existingSongs: Song[]): Pro
  * @returns Array of LyricLine objects
  */
 function parseLyricsFromText(text: string): LyricLine[] {
-  const lines = text.split('\n');
   const lyrics: LyricLine[] = [];
-  
+  const lines = text.split('\n');
+  let bpm = 160; // Default BPM
+  let gap = 0; // Default GAP in milliseconds
+  let videoGap = 0; // Default VIDEOGAP in milliseconds
+
+  // First pass: extract BPM, GAP and VIDEOGAP from header
   for (const line of lines) {
-    if (line.startsWith(':')) {
-      // Process lyric lines (format: ": startTime duration pitch text")
-      const parts = line.substring(1).trim().split(' ');
+    const trimmedLine = line.trim();
+    if (trimmedLine.startsWith('#BPM:')) {
+      // Handle European decimal notation (comma instead of period)
+      const bpmValue = trimmedLine.split(':')[1].trim().replace(',', '.');
+      bpm = parseFloat(bpmValue);
+    } else if (trimmedLine.startsWith('#GAP:')) {
+      // Handle European decimal notation (comma instead of period)
+      const gapValue = trimmedLine.split(':')[1].trim().replace(',', '.');
+      gap = parseFloat(gapValue);
+    } else if (trimmedLine.startsWith('#VIDEOGAP:')) {
+      // Handle European decimal notation (comma instead of period)
+      const videoGapValue = trimmedLine.split(':')[1].trim().replace(',', '.');
+      videoGap = parseFloat(videoGapValue) * 1000; // Convert to milliseconds
+    }
+  }
+
+  // Convert beat to milliseconds function
+  const beatToMs = (beat: number): number => {
+    // Calculate the time in milliseconds, accounting for both GAP and VIDEOGAP
+    // GAP is the delay before the song starts
+    // VIDEOGAP is the offset between audio and video
+    return gap + (beat * 60000) / bpm - videoGap;
+  };
+
+  // Second pass: parse lyrics
+  for (const line of lines) {
+    const trimmedLine = line.trim();
+    if (trimmedLine.match(/^[:*~\-]/)) {
+      const markerType = trimmedLine[0];
+      const isGolden = markerType === '*';
+      const isPause = markerType === '-';
+      const isProlongation = markerType === '~';
+      const parts = trimmedLine.slice(1).trim().split(' ');
+
       if (parts.length >= 4) {
-        const startTime = parseInt(parts[0], 10);
-        const duration = parseInt(parts[1], 10);
-        const endTime = startTime + duration;
+        const startBeat = parseInt(parts[0], 10);
+        const lengthBeat = parseInt(parts[1], 10);
+        const startTime = beatToMs(startBeat);
+        const endTime = beatToMs(startBeat + lengthBeat);
         const text = parts.slice(3).join(' ');
-        
+
         lyrics.push({
           startTime,
           endTime,
-          text
+          text,
+          isPause,
+          isProlongation,
+          isGolden
         });
       }
     }

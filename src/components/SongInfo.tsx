@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useKaraokeStore } from '../store/useKaraokeStore';
 import { Volume2, VolumeX } from 'lucide-react';
+import { LyricLine } from '../types/song';
 
 export const SongInfo: React.FC = () => {
   const { currentSong, volume, setVolume, isPlaying, setIsPlaying } = useKaraokeStore();
@@ -8,6 +9,7 @@ export const SongInfo: React.FC = () => {
   const musicRef = useRef<HTMLAudioElement>(null);
   const vocalsRef = useRef<HTMLAudioElement>(null);
   const [videoError, setVideoError] = useState(false);
+  const [currentLyrics, setCurrentLyrics] = useState<LyricLine[]>([]);
 
   // Effect to update audio/video volumes when store volume changes
   useEffect(() => {
@@ -29,6 +31,41 @@ export const SongInfo: React.FC = () => {
   // Reset video error state when current song changes
   useEffect(() => {
     setVideoError(false);
+  }, [currentSong]);
+
+  // Effect to update current lyrics based on video time
+  useEffect(() => {
+    if (!currentSong || !videoRef.current) return;
+
+    const updateLyrics = () => {
+      const currentTime = videoRef.current?.currentTime ?? 0;
+      const currentTimeMs = Math.floor(currentTime * 1000);
+      
+      // Use a more precise timing approach with a small buffer to account for rendering delays
+      const buffer = 100; // Increased from 50ms to 100ms for better timing
+      
+      const activeLyrics = currentSong.lyrics.filter(lyric => {
+        // Skip pause markers when displaying lyrics
+        if (lyric.isPause) return false;
+        
+        // Check if the current time is within the lyric's time range
+        // The buffer is only applied to the end time to prevent lyrics from disappearing too quickly
+        return lyric.startTime <= currentTimeMs && 
+               (lyric.endTime + buffer) >= currentTimeMs;
+      });
+      
+      // Sort lyrics by startTime to ensure they appear in the correct order
+      const sortedLyrics = [...activeLyrics].sort((a, b) => a.startTime - b.startTime);
+      
+      setCurrentLyrics(sortedLyrics);
+    };
+
+    const video = videoRef.current;
+    video.addEventListener('timeupdate', updateLyrics);
+    
+    return () => {
+      video.removeEventListener('timeupdate', updateLyrics);
+    };
   }, [currentSong]);
 
   // Synchronize playback of video and audio tracks
@@ -95,17 +132,40 @@ export const SongInfo: React.FC = () => {
     <div className="flex flex-col h-full bg-gray-900 p-4 rounded-lg">
       <div className="relative aspect-video w-full overflow-hidden rounded-lg mb-4">
         {currentSong.videoUrl && !videoError ? (
-          <video
-            ref={videoRef}
-            className="absolute inset-0 w-full h-full object-cover"
-            controls
-            autoPlay
-            controlsList="nodownload"
-            onError={handleVideoError}
-          >
-            <source src={currentSong.videoUrl} />
-            Your browser does not support the video tag.
-          </video>
+          <>
+            <video
+              ref={videoRef}
+              className="absolute inset-0 w-full h-full object-cover"
+              controls
+              autoPlay
+              controlsList="nodownload"
+              onError={handleVideoError}
+            >
+              <source src={currentSong.videoUrl} />
+              Your browser does not support the video tag.
+            </video>
+            {/* Lyrics overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-4">
+              <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4 text-center">
+                <div className="flex flex-wrap justify-center gap-1">
+                  {currentLyrics.map((lyric, index) => (
+                    <span 
+                      key={`${lyric.startTime}-${index}`}
+                      className={`text-2xl font-bold drop-shadow-lg transition-all duration-300 inline-block ${
+                        lyric.isGolden 
+                          ? 'text-yellow-300 animate-pulse' 
+                          : lyric.isProlongation
+                            ? 'text-blue-300'
+                            : 'text-white'
+                      }`}
+                    >
+                      {lyric.text.replace(/[*~]/g, '')}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </>
         ) : (
           <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-gray-800">
             <img 
